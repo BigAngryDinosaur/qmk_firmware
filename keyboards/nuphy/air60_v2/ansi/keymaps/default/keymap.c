@@ -6,7 +6,10 @@
 enum {
     TD_ESC,
     TD_HYPER_MEH,
-    TD_SHIFT
+    TD_F13_16,
+    TD_F17_20,
+    TD_V,
+    TD_A
 };
 
 typedef enum {
@@ -28,21 +31,30 @@ typedef struct {
 
 
 td_state_t cur_dance(tap_dance_state_t *state);
+td_state_t repeat_dance(tap_dance_state_t *state);
 
 void hm_finished(tap_dance_state_t *state, void *user_data);
 void hm_reset(tap_dance_state_t *state, void *user_data);
 
-void shift_finished(tap_dance_state_t *state, void *user_data);
-void shift_reset(tap_dance_state_t *state, void *user_data);
+void f13_16_finished(tap_dance_state_t *state, void *user_data);
+void f13_16_reset(tap_dance_state_t *state, void *user_data);
 
+void f17_20_finished(tap_dance_state_t *state, void *user_data);
+void f17_20_reset(tap_dance_state_t *state, void *user_data);
+
+void v_finished(tap_dance_state_t *state, void *user_data);
+void v_reset(tap_dance_state_t *state, void *user_data);
+
+void a_finished(tap_dance_state_t *state, void *user_data);
+void a_reset(tap_dance_state_t *state, void *user_data);
 
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 
 [0] = LAYOUT(
 	TD(TD_ESC), 	    KC_1,           KC_2,   	KC_3,  		KC_4,   	KC_5,   	KC_6,   	KC_7,   	KC_8,   	KC_9,  		KC_0,   	KC_MINS,        KC_EQL, 	KC_BSPC,
 	KC_TAB,             KC_Q,           KC_W,   	KC_E,  		KC_R,   	KC_T,   	KC_Y,   	KC_U,   	KC_I,   	KC_O,  		KC_P,   	KC_LBRC,        KC_RBRC, 	KC_BSLS,
-	TD(TD_HYPER_MEH),   LT(2, KC_A),   	KC_S,   	KC_D,  		KC_F,   	KC_G,   	KC_H,   	KC_J,   	KC_K,   	KC_L,  		KC_SCLN,	LT(4, KC_QUOT), 	        KC_ENT,
-	KC_LSFT,            TD(TD_SHIFT),   KC_X,   	KC_C,  		KC_V,   	KC_B,   	KC_N,   	KC_M,   	KC_COMM,	KC_DOT,		KC_SLSH,	KC_RSFT,        KC_UP,		KC_DEL,
+	TD(TD_HYPER_MEH),   KC_A,   	    KC_S,       LT(2, KC_D),KC_F,   	KC_G,   	KC_H,   	KC_J,   	KC_K,   	KC_L,  		KC_SCLN,	LT(4, KC_QUOT), KC_ENT,
+	KC_LSFT,            KC_Z,           KC_X,   	KC_C,  		TD(TD_V),	KC_B,   	KC_N,   	KC_M,   	KC_COMM,	KC_DOT,		KC_SLSH,	KC_RSFT,        KC_UP,		KC_DEL,
 	KC_LCTL,            KC_LGUI,        KC_LALT,										KC_SPC, 							KC_RALT,	MO(1),   	KC_LEFT,        KC_DOWN,    KC_RGHT),
 
 [1] = LAYOUT(
@@ -75,16 +87,16 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 
 [5] = LAYOUT(
 	_______, 	_______,  	_______,  	_______, 	_______,  	_______,  	_______,  	_______,  	_______,  	_______, 	_______, 	_______, 	_______, 	_______,
-	_______, 	_______,  	_______,  	_______, 	_______,  	_______,  	_______,  	_______,  	_______,  	_______, 	_______, 	_______, 	_______, 	_______,
-	_______, 	_______,   	_______,   	_______,  	_______,   	_______,   	_______,   	_______,   	_______,   	_______,  	_______,   	_______,	            _______,
-	_______,    _______,   	_______,   	_______,  	_______,   	_______,   	_______,   	_______,   	SIDE_SPD,	SIDE_SPI,  	_______,	_______,  	SIDE_VAI,    _______,
+	_______, 	KC_P7,  	KC_P8,  	KC_P9, 	    KC_PDOT,  	_______,  	_______,  	_______,  	KC_NUM,  	_______, 	_______, 	_______, 	_______, 	_______,
+	_______, 	KC_P4,   	KC_P5,   	KC_P6,  	KC_P0,   	_______,   	_______,   	KC_PENT,   	KC_PPLS,   	KC_PMNS,  	_______,   	_______,	            _______,
+	_______,    KC_P1,   	KC_P2,   	KC_P3,  	KC_NUBS,   	_______,   	KC_PSLS,   	KC_PAST,   	_______,	_______,  	_______,	_______,  	SIDE_VAI,    _______,
 	_______,	_______,	_______,										_______, 							_______,	_______,   	SIDE_MOD,	SIDE_VAD,    SIDE_HUI),
 
 [6] = LAYOUT(
 	_______, 	_______,  	_______,  	_______, 	_______,  	_______,  	_______,  	_______,  	_______,  	_______, 	_______, 	_______, 	_______, 	_______,
-	_______, 	_______,  	_______,  	_______, 	_______,  	_______,  	_______,  	_______,  	_______,  	_______, 	_______, 	_______, 	_______, 	_______,
-	_______, 	_______,   	_______,   	_______,  	_______,   	_______,   	_______,   	_______,   	_______,   	_______,  	_______,   	_______,	            _______,
-	_______,    _______,   	_______,   	_______,  	_______,   	_______,   	_______,   	_______,   	SIDE_SPD,	SIDE_SPI,  	_______,	_______,  	SIDE_VAI,    _______,
+	_______, 	KC_F1,  	KC_F2,  	KC_F3, 	    KC_F10,  	_______,  	_______,  	KC_F13,  	KC_F14,  	KC_F15, 	KC_F20, 	_______, 	_______, 	_______,
+	_______, 	KC_F4,   	KC_F5,   	KC_F6,  	KC_F11,   	_______,   	_______,   	KC_F16,   	KC_F17,   	KC_F18,  	_______,   	_______,	            _______,
+	_______,    KC_F7,   	KC_F8,   	KC_F9,  	KC_F12,   	_______,   	_______,   	KC_F19,   	_______,	_______,  	_______,	_______,  	SIDE_VAI,    _______,
 	_______,	_______,	_______,										_______, 							_______,	_______,   	SIDE_MOD,	SIDE_VAD,    SIDE_HUI),
 
 [7] = LAYOUT(
@@ -182,35 +194,20 @@ uint16_t get_tapping_term(uint16_t keycode, keyrecord_t *record) {
             return 200;
         case TD(TD_HYPER_MEH):
             return 200;
-        case TD(TD_SHIFT):
+        case TD(TD_F13_16):
+            return 150;
+        case TD(TD_F17_20):
+            return 150;
+        case TD(TD_V):
+            return 200;
+        case TD(TD_A):
             return 200;
         default:
             return TAPPING_TERM;
     }
 }
 
-void dance_esc(tap_dance_state_t *state, void *user_data) {
-    switch (state->count) {
-        case 1:
-            tap_code(KC_ESC);
-            break;
-        case 2:
-            tap_code(KC_GRV);
-            break;
-        default:
-            reset_tap_dance(state);
-    }
-}
-
-// Tap Dance definitions
-tap_dance_action_t tap_dance_actions[] = {
-    // Tap once for Escape, twice backtick, thrice for swiggly
-    [TD_ESC] = ACTION_TAP_DANCE_FN(dance_esc),
-    [TD_HYPER_MEH] = ACTION_TAP_DANCE_FN_ADVANCED(NULL, hm_finished, hm_reset),
-    [TD_SHIFT] = ACTION_TAP_DANCE_FN_ADVANCED(NULL, shift_finished, shift_reset)
-};
-
-
+// Tap Dance
 td_state_t cur_dance(tap_dance_state_t *state) {
     if (state->count == 1) {
         if (state->interrupted || !state->pressed) return TD_SINGLE_TAP;
@@ -234,8 +231,46 @@ td_state_t cur_dance(tap_dance_state_t *state) {
     } else return TD_UNKNOWN;
 }
 
-// ** Hyper Meh ** //
-// Create an instance of 'td_tap_t' for the 'hyper meh' tap dance.
+td_state_t repeat_dance(tap_dance_state_t *state) {
+    if (state->count == 1) {
+        return TD_SINGLE_TAP;
+    } else if (state->count == 2) {
+        // TD_DOUBLE_SINGLE_TAP is to distinguish between typing "pepper", and actually wanting a double tap
+        // action when hitting 'pp'. Suggested use case for this return value is when you want to send two
+        // keystrokes of the key, and not the 'double tap' action/macro.
+        if (state->interrupted) return TD_DOUBLE_SINGLE_TAP;
+        else if (state->pressed) return TD_DOUBLE_HOLD;
+        else return TD_DOUBLE_TAP;
+    }
+
+    // Assumes no one is trying to type the same letter three times (at least not quickly).
+    // If your tap dance key is 'KC_W', and you want to type "www." quickly - then you will need to add
+    // an exception here to return a 'TD_TRIPLE_SINGLE_TAP', and define that enum just like 'TD_DOUBLE_SINGLE_TAP'
+    if (state->count == 3) {
+        if (state->interrupted || !state->pressed) return TD_TRIPLE_TAP;
+        else return TD_TRIPLE_HOLD;
+    } else return TD_UNKNOWN;
+}
+
+
+// -------------------------
+
+
+// TD: Esc
+void dance_esc(tap_dance_state_t *state, void *user_data) {
+    switch (state->count) {
+        case 1:
+            tap_code(KC_ESC);
+            break;
+        case 2:
+            tap_code(KC_GRV);
+            break;
+        default:
+            reset_tap_dance(state);
+    }
+}
+
+// TD: Hyper Meh
 static td_tap_t hm_tap_state = {
     .is_press_action = true,
     .state = TD_NONE
@@ -244,58 +279,159 @@ static td_tap_t hm_tap_state = {
 void hm_finished(tap_dance_state_t *state, void *user_data) {
     hm_tap_state.state = cur_dance(state);
     switch (hm_tap_state.state) {
-        case TD_SINGLE_TAP: register_code(KC_HOME); break;
+        case TD_SINGLE_TAP: register_code(KC_PAGE_UP); break;
         case TD_SINGLE_HOLD: register_code(KC_PAGE_UP); break;
         case TD_DOUBLE_TAP: register_code(KC_END); break;
         case TD_DOUBLE_HOLD: register_code(KC_PAGE_DOWN); break;
-        // Last case is for fast typing. Assuming your key is `f`:
-        // For example, when typing the word `buffer`, and you want to make sure that you send `ff` and not `Esc`.
-        // In order to type `ff` when typing fast, the next character will have to be hit within the `TAPPING_TERM`, which by default is 200ms.
-        //case TD_DOUBLE_SINGLE_TAP: tap_code(KC_X); register_code(KC_X); break;
         default: break;
     }
 }
 
 void hm_reset(tap_dance_state_t *state, void *user_data) {
     switch (hm_tap_state.state) {
-        case TD_SINGLE_TAP: unregister_code(KC_HOME); break;
+        case TD_SINGLE_TAP: unregister_code(KC_PAGE_UP); break;
         case TD_SINGLE_HOLD: unregister_code(KC_PAGE_UP); break;
         case TD_DOUBLE_TAP: unregister_code(KC_END); break;
         case TD_DOUBLE_HOLD: unregister_code(KC_PAGE_DOWN); break;
-        //case TD_DOUBLE_SINGLE_TAP: unregister_code(KC_X); break;
         default: break;
     }
     hm_tap_state.state = TD_NONE;
 }
 
-
-// ** Shift TD ** //
-// Create an instance of 'td_tap_t' for the 'hyper meh' tap dance.
-static td_tap_t shift_tap_state = {
+// TD: V
+static td_tap_t v_tap_state = {
     .is_press_action = true,
     .state = TD_NONE
 };
 
-void shift_finished(tap_dance_state_t *state, void *user_data) {
-    shift_tap_state.state = cur_dance(state);
-    switch (shift_tap_state.state) {
-        case TD_SINGLE_TAP: register_code(KC_Z); break;
-        case TD_SINGLE_HOLD: register_code(KC_F13); break;
-        case TD_DOUBLE_TAP: register_code(KC_F14); break;
-        case TD_DOUBLE_HOLD: register_code(KC_F15); break;
-        case TD_DOUBLE_SINGLE_TAP: tap_code(KC_Z); register_code(KC_Z); break;
+void v_finished(tap_dance_state_t *state, void *user_data) {
+    v_tap_state.state = repeat_dance(state);
+    switch (v_tap_state.state) {
+        case TD_SINGLE_TAP: register_code(KC_V); break;
+        case TD_SINGLE_HOLD: register_code(KC_V); break;
+        case TD_DOUBLE_TAP: register_code(KC_HOME); break;
+        case TD_DOUBLE_HOLD: register_code(KC_INSERT); break;
+        case TD_DOUBLE_SINGLE_TAP: register_code(KC_V); break;
         default: break;
     }
 }
 
-void shift_reset(tap_dance_state_t *state, void *user_data) {
-    switch (shift_tap_state.state) {
+void v_reset(tap_dance_state_t *state, void *user_data) {
+    switch (v_tap_state.state) {
+        case TD_SINGLE_TAP: unregister_code(KC_V); break;
+        case TD_SINGLE_HOLD: unregister_code(KC_V); break;
+        case TD_DOUBLE_TAP: unregister_code(KC_HOME); break;
+        case TD_DOUBLE_HOLD: unregister_code(KC_INSERT); break;
+        case TD_DOUBLE_SINGLE_TAP: unregister_code(KC_V); break;
+        default: break;
+    }
+    v_tap_state.state = TD_NONE;
+}
+
+// TD: A
+static td_tap_t a_tap_state = {
+    .is_press_action = true,
+    .state = TD_NONE
+};
+
+void a_finished(tap_dance_state_t *state, void *user_data) {
+    a_tap_state.state = repeat_dance(state);
+    switch (a_tap_state.state) {
+        case TD_SINGLE_TAP: register_code(KC_A); break;
+        case TD_SINGLE_HOLD: register_code(KC_A); break;
+        case TD_DOUBLE_TAP: register_code(KC_PEQL); break;
+        case TD_DOUBLE_HOLD: register_code(KC_RGUI); break;
+        case TD_DOUBLE_SINGLE_TAP: register_code(KC_A); break;
+        default: break;
+    }
+}
+
+void a_reset(tap_dance_state_t *state, void *user_data) {
+    switch (a_tap_state.state) {
+        case TD_SINGLE_TAP: unregister_code(KC_A); break;
+        case TD_SINGLE_HOLD: unregister_code(KC_A); break;
+        case TD_DOUBLE_TAP: unregister_code(KC_PEQL); break;
+        case TD_DOUBLE_HOLD: unregister_code(KC_RGUI); break;
+        case TD_DOUBLE_SINGLE_TAP: unregister_code(KC_A); break;
+        default: break;
+    }
+    a_tap_state.state = TD_NONE;
+}
+
+// TD: F13 - F16
+static td_tap_t f13_16_tap_state = {
+    .is_press_action = true,
+    .state = TD_NONE
+};
+
+void f13_16_finished(tap_dance_state_t *state, void *user_data) {
+    f13_16_tap_state.state = cur_dance(state);
+    switch (f13_16_tap_state.state) {
+        case TD_SINGLE_TAP: register_code(KC_F13); break;
+        case TD_SINGLE_HOLD: register_code(KC_F14); break;
+        case TD_DOUBLE_TAP: register_code(KC_F15); break;
+        case TD_DOUBLE_HOLD: register_code(KC_F16); break;
+        default: break;
+    }
+}
+
+void f13_16_reset(tap_dance_state_t *state, void *user_data) {
+    switch (f13_16_tap_state.state) {
         case TD_SINGLE_TAP: unregister_code(KC_Z); break;
         case TD_SINGLE_HOLD: unregister_code(KC_F13); break;
         case TD_DOUBLE_TAP: unregister_code(KC_F14); break;
         case TD_DOUBLE_HOLD: unregister_code(KC_F15); break;
-        case TD_DOUBLE_SINGLE_TAP: unregister_code(KC_Z); break;
         default: break;
     }
-    shift_tap_state.state = TD_NONE;
+    f13_16_tap_state.state = TD_NONE;
 }
+
+
+// TD: F17 - F20
+static td_tap_t f17_f20_tap_state = {
+    .is_press_action = true,
+    .state = TD_NONE
+};
+
+void f17_20_finished(tap_dance_state_t *state, void *user_data) {
+    f17_f20_tap_state.state = cur_dance(state);
+    switch (f17_f20_tap_state.state) {
+        case TD_SINGLE_TAP: register_code(KC_F17); break;
+        case TD_SINGLE_HOLD: register_code(KC_F18); break;
+        case TD_DOUBLE_TAP: register_code(KC_F19); break;
+        case TD_DOUBLE_HOLD: register_code(KC_F20); break;
+        default: break;
+    }
+}
+
+void f17_20_reset(tap_dance_state_t *state, void *user_data) {
+    switch (f17_f20_tap_state.state) {
+        case TD_SINGLE_TAP: unregister_code(KC_F17); break;
+        case TD_SINGLE_HOLD: unregister_code(KC_F18); break;
+        case TD_DOUBLE_TAP: unregister_code(KC_F19); break;
+        case TD_DOUBLE_HOLD: unregister_code(KC_F20); break;
+        default: break;
+    }
+    f17_f20_tap_state.state = TD_NONE;
+}
+
+
+// TD Definitions
+tap_dance_action_t tap_dance_actions[] = {
+    [TD_ESC] = ACTION_TAP_DANCE_FN(dance_esc),
+    [TD_HYPER_MEH] = ACTION_TAP_DANCE_FN_ADVANCED(NULL, hm_finished, hm_reset),
+    [TD_F13_16] = ACTION_TAP_DANCE_FN_ADVANCED(NULL, f13_16_finished, f13_16_reset),
+    [TD_F17_20] = ACTION_TAP_DANCE_FN_ADVANCED(NULL, f17_20_finished, f17_20_reset),
+    [TD_V] = ACTION_TAP_DANCE_FN_ADVANCED(NULL, v_finished, v_reset),
+    [TD_A] = ACTION_TAP_DANCE_FN_ADVANCED(NULL, a_finished, a_reset)
+};
+
+
+
+// COMBO
+const uint16_t PROGMEM combo1[] = {KC_J, KC_K, COMBO_END};
+const uint16_t PROGMEM combo2[] = {KC_K, KC_L, COMBO_END};
+combo_t key_combos[] = {
+    COMBO(combo1, OSL(5)),
+    COMBO(combo2, OSL(6)),
+};
